@@ -1,0 +1,27 @@
+{
+  "name": "to-do-app",
+  "version": "1.0.0",
+  "description": "A demo to do app built in vanilla js",
+  "main": "index.js",
+  "source": "src/index.html",
+  "scripts": {
+    "start": "parcel",
+    "build": "parcel build"
+  },
+  "keywords": [
+    "HTML",
+    "CSS",
+    "JS",
+    "Parcel"
+  ],
+  "author": "yashone7",
+  "license": "ISC",
+  "devDependencies": {
+    "parcel": "^2.3.2",
+    "process": "^0.11.10"
+  },
+  "dependencies": {
+    "axios": "^0.26.0",
+    "uuid": "^8.3.2"
+  }
+}
