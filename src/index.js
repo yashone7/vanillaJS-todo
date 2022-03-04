@@ -6,8 +6,6 @@ const item = document.getElementById("item");
 const list = document.querySelector("ul");
 let deleteBtns = [];
 
-const myBtn = document.getElementById("my-test");
-
 const postEvent = new CustomEvent("todo-post");
 const deleteEvent = new CustomEvent("todo-delete");
 
@@ -25,6 +23,7 @@ window.addEventListener("load", async (e) => {
 window.addEventListener("todo-post", async (e) => {
   console.log("todo posted");
   const data = await fetchTodos();
+  removeTodos();
   todoList = data;
   renderTodos(todoList);
 });
@@ -32,6 +31,7 @@ window.addEventListener("todo-post", async (e) => {
 window.addEventListener("todo-delete", async (e) => {
   console.log("todo deleted");
   const data = await fetchTodos();
+  removeTodos();
   todoList = data;
   renderTodos(todoList);
 });
@@ -57,7 +57,7 @@ form.addEventListener("submit", async (e) => {
   let obj = Object.assign({}, { id: uuid, title: value, author: "yashone7" });
   const data = JSON.stringify(obj);
   try {
-    await postTodos(data);
+    await postTodos(data); // AJAX call
     window.dispatchEvent(postEvent);
   } catch (error) {
     console.log(error);
@@ -77,6 +77,7 @@ async function postTodos(todo) {
 
 async function fetchTodos() {
   const { data } = await axios.get("http://localhost:3000/todos");
+  // console.log(response.data)
   return data;
 }
 
@@ -95,8 +96,12 @@ function renderTodos(data) {
   });
 }
 
+// <button id="123" class="abc" data-buttun-type="delete"> delete </button>
+
+// event bubbling concept is being used here
 list.addEventListener("click", async (e) => {
   if (e.target.dataset.buttonType === "delete") {
+    console.log(e);
     await deleteTodos(e.target.id);
     const li = e.target.parentElement;
     console.log(li);
@@ -114,5 +119,9 @@ async function deleteTodos(id) {
   //   console.log(todoList);
 }
 
-// deleting the to dos is simply filtering the list fo available ids and comparing
-// with the main list and id !== current iteration id
+function removeTodos() {
+  while (list.hasChildNodes()) {
+    console.log("ran");
+    list.removeChild(list.lastChild);
+  }
+}
